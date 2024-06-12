@@ -1,5 +1,6 @@
 "use client"
 import React, { FormEvent } from 'react'
+import { signIn } from "next-auth/react"
 
 export default function LoginForm() {
   async function login(e: FormEvent<HTMLFormElement>) {
@@ -11,7 +12,10 @@ export default function LoginForm() {
       password: formData.get("password"),
     }
 
-    console.log(data)
+    signIn("credentials", {
+      ...data,
+      callbackUrl: "/dashboard"
+    })
   }
 
   return (
