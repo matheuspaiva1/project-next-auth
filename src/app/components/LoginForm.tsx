@@ -1,8 +1,13 @@
 "use client"
 import React, { FormEvent } from 'react'
 import { signIn } from "next-auth/react"
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginForm() {
+  const searchParams = useSearchParams()
+
+  const error = searchParams.get('error')
+
   async function login(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
@@ -32,6 +37,9 @@ export default function LoginForm() {
           placeholder="Senha" 
           className="input input-primary w-full"/>
           <button className="btn btn-primary w-full" type="submit">Login</button>
+          {error === "CredentialsSignin" && (
+            <div className="text-red-600">Erro no Login</div>
+          )}
     </form> 
   )
 }
